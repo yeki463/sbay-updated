@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBAY</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color: white;
+            font-family: "Courier New", Courier, monospace;
+            flex-direction: column;
+            text-align: center;
+            position: relative;
+            font-size: 0.7em; /* Reduce base font size by 30% */
+        }
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .circle {
+            width: 12px; /* Smaller size for the circles */
+            height: 12px; /* Smaller size for the circles */
+            border-radius: 50%;
+            border: 2px solid;
+            background-color: transparent;
+            margin: 0 10px;
+        }
+        .circle.yellow {
+            border-color: yellow;
+        }
+        .circle.green {
+            border-color: green;
+        }
+        .s { color: blue; }
+        .b { color: purple; }
+        .a { color: red; }
+        .y { color: orange; }
+        #mainText {
+            font-size: 1.4em; /* Reduced from 2em to 1.4em */
+            margin-bottom: 20px;
+        }
+        #countdown {
+            font-size: 1.05em; /* Reduced from 1.5em to 1.05em */
+        }
+        #cornerText {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: darkorange;
+            font-size: 0.56em; /* Reduced from 0.8em to 0.56em */
+        }
+        #yearLeft {
+            font-size: 0.6em;
+            color: lightgreen;
+            display: none; /* Initially hidden */
+            margin-top: 10px;
+        }
+        #twoYearsLeft {
+            font-size: 0.6em;
+            color: lightblue;
+            display: none; /* Initially hidden */
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="circle-container">
+        <div class="circle yellow"></div>
+        <div class="circle green"></div>
+        <div class="circle yellow"></div>
+        <div class="circle green"></div>
+    </div>
+    <div id="mainText">
+        <span class="s">S</span>
+        <span class="b">B</span>
+        <span class="a">A</span>
+        <span class="y">Y</span>
+        <br>15.09.2026
+    </div>
+    <div id="countdown"></div>
+    <div id="twoYearsLeft">2 years left</div>
+    <div id="yearLeft">1 year left</div>
+    <div id="cornerText">ablgzw ykwndr</div>
+
+    <script>
+        // Set the target date
+        const targetDate = new Date('2026-09-15T00:00:00').getTime();
+        // Set the date one year and two years before the target date
+        const oneYearBefore = new Date('2025-09-15T00:00:00').getTime();
+        const twoYearsBefore = new Date('2024-09-15T00:00:00').getTime();
+
+        // Update the countdown every second
+        const countdown = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // Time calculations for days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result
+            document.getElementById('countdown').innerHTML = 
+                days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
+
+            // Check if two years are left
+            if (now >= twoYearsBefore && now < twoYearsBefore + 1000 * 60 * 60 * 24) {
+                document.getElementById('twoYearsLeft').style.display = 'block';
+            }
+
+            // Check if one year is left
+            if (now >= oneYearBefore && now < oneYearBefore + 1000 * 60 * 60 * 24) {
+                document.getElementById('yearLeft').style.display = 'block';
+            }
+
+            // If the countdown is over, display a message
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById('countdown').innerHTML = 'the party must begin';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
